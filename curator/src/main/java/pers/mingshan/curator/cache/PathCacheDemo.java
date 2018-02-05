@@ -19,6 +19,10 @@ import pers.mingshan.curator.api.CuratorClient;
  * 通过下面的构造函数创建Path Cache:<br>
  * <code> public PathChildrenCache(CuratorFramework client, String path, boolean cacheData)</code>
  * 
+ * 如果new PathChildrenCache(client, PATH, true)中的参数cacheData值设置为false，
+ * 则示例中的event.getData().getData()、data.getData()将返回null，cache将不会缓存节点数据。
+ * 
+ * 
  * @author mingshan
  *
  */
@@ -55,6 +59,7 @@ public class PathCacheDemo {
                 logger.info("节点数据：" + event.getData().getPath() + " = " + new String(event.getData().getData()));
             }
         };
+
         cache.getListenable().addListener(cacheListener);
         client.create().creatingParentsIfNeeded().forPath(ZK_PATH + "/test01", "01".getBytes());
         Thread.sleep(10);
